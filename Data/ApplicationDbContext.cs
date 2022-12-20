@@ -1,4 +1,4 @@
-﻿using market.Models;
+﻿using market.Domain.Entity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
