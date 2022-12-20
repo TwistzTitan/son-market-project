@@ -27,8 +27,17 @@ namespace market.Controllers
         public IActionResult Categorias(){
             return View();
         }
+        
+        [Route("fornecedores")]
+        public IActionResult Fornecedores(){
+            return View();
+        }
         [Route("novacategoria")]
         public IActionResult NovaCategoria(){
+            return View();
+        }
+        [Route("novofornecedor")]
+        public IActionResult NovoFornecedor(){
             return View();
         }
 
