@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using market.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace market.Controllers
@@ -12,10 +14,14 @@ namespace market.Controllers
     public class GestaoController : Controller
     {
         private readonly ILogger<GestaoController> _logger;
-
-        public GestaoController(ILogger<GestaoController> logger)
+        private readonly ApplicationDbContext _repo; 
+        public GestaoController(
+            ILogger<GestaoController> logger,
+            ApplicationDbContext context
+            )
         {
             _logger = logger;
+            _repo = context;
         }
 
         public IActionResult Index()
@@ -32,6 +38,11 @@ namespace market.Controllers
         public IActionResult Fornecedores(){
             return View();
         }
+        [Route("produtos")]
+        public IActionResult Produtos(){
+            return View();
+        }
+
         [Route("novacategoria")]
         public IActionResult NovaCategoria(){
             return View();
@@ -39,6 +50,21 @@ namespace market.Controllers
         [Route("novofornecedor")]
         public IActionResult NovoFornecedor(){
             return View();
+        }
+        [Route("novoproduto")]
+        public IActionResult NovoProduto(){
+            try 
+            {
+                ViewBag.Categorias = _repo.Categorias
+                    .Select( cat => new SelectListItem(){ Text = cat.Nome , Value = cat.Id.ToString()}).ToList();
+                ViewBag.Fornecedores = _repo.Fornecedores
+                    .Select( f => new SelectListItem() { Text = f.Nome, Value = f.Id.ToString()}).ToList();
+                return View();
+            }
+            catch{
+                return RedirectToAction("Produtos");
+            }
+
         }
 
         // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

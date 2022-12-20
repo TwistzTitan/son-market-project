@@ -1,7 +1,10 @@
 @{
     Layout = "_LayoutAdmin";
+    ViewBag.Title = "Fornecedores";
 }
 
+<h2>@ViewBag.Title</h2>
+<br/>
 <a  asp-action="NovoFornecedor" asp-controller="Gestao" class="btn btn-success">
     Criar novo Fornecedor
 </a>
