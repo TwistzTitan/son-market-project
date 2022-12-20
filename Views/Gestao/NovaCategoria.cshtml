@@ -1,0 +1,14 @@
+@model market.Models.Categoria;
+@{
+    Layout = "_LayoutAdmin";
+}
+<h3>Nova Categoria</h3>
+<br/>
+<form   class="form-horizontal" method="POST" asp-action="Salvar" asp-controller="Categorias">
+    <input type="hidden" asp-for="Id" value="0"/>
+    <input type="hidden" asp-for="Status" value="false"/>    
+    <label asp-for="Nome"></label>
+    <input type="text" asp-for="Nome"/>
+    <span asp-validation-for="Nome"></span>
+    <button class="btn btn-success" type="submit">Cadastrar</button>
+</form>

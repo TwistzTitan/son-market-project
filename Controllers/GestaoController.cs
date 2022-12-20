@@ -22,6 +22,15 @@ namespace market.Controllers
         {
             return View();
         }
+        
+        [Route("categorias")]
+        public IActionResult Categorias(){
+            return View();
+        }
+        [Route("novacategoria")]
+        public IActionResult NovaCategoria(){
+            return View();
+        }
 
         // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         // public IActionResult Error()
