@@ -4,23 +4,23 @@
 }
 <h3>Novo Fornecedor</h3>
 <br/>
-<form method="POST" asp-action="Salvar" asp-controller="Fornecedores">
+<form class="needs-validation" method="POST" asp-action="Salvar" asp-controller="Fornecedores">
     <input type="hidden" asp-for="Id" value="0"/>
     <input type="hidden" asp-for="Status" value="false"/>    
     <div class="form-group">
         <label asp-for="Nome"></label>
-        <input class="form-control" asp-for="Nome"/>
-        <span asp-validation-for="Nome"></span>
+        <input class="form-control" asp-for="Nome" required/>
+        <span class="text-danger" asp-validation-for="Nome"></span>
     </div>
     <div class="form-group">
         <label asp-for="Email"></label>
-        <input class="form-control" asp-for="Email"/>
-        <span asp-validation-for="Email"></span>
+        <input class="form-control" asp-for="Email" required/>
+        <span class="text-danger" asp-validation-for="Email"></span>
     </div>
     <div class="form-group">
         <label asp-for="Telefone"></label>
-        <input class="form-control" asp-for="Telefone" placeholder="21 98452 7945"/>
-        <span asp-validation-for="Telefone"></span>
+        <input class="form-control" asp-for="Telefone" placeholder="21 98452 7945" minlength="13" required/>
+        <span class="text-danger" asp-validation-for="Telefone"></span>
     </div>
     <br/>
     <button class="btn btn-success" type="submit">Cadastrar</button>
