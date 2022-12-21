@@ -31,7 +31,12 @@ namespace market.Controllers
         
         [Route("categorias")]
         public IActionResult Categorias(){
-            return View();
+             var categorias = _repo.Categorias
+                .Where( cat => cat.Status )
+                .Select( cat => new Models.Categoria(){Id = cat.Id, Nome = cat.Nome, Status = cat.Status })
+                .ToList();
+                
+            return View(model: categorias);
         }
         
         [Route("fornecedores")]

@@ -1,14 +1,55 @@
+@using market.Models;
+@model IEnumerable<Categoria>;
 @{
     Layout = "_LayoutAdmin";
     ViewBag.Title = "Categorias";
 }
 
-<h2>@ViewBag.Title</h2>
-<br/>
+<script>
+    $(document).ready( function () {
+    $('#tb_Categorias').DataTable();
+} );
+</script>
 
-<a  asp-action="NovaCategoria" 
-    asp-controller="Gestao" 
-    class="btn btn-success">
-    Criar nova Categoria
-</a>
-<hr/>
+<div class="row">
+    <div class="col">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col"></div>
+    <div class="col">
+        <a  class="btn btn-success" asp-action="NovaCategoria" asp-controller="Gestao" >Criar Categoria</a>
+    </div>
+</div> 
+<br/>
+<table id="tb_Categorias" class="table table-striped bordered">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nome
+            </th>
+            <th>
+                Ações
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Categoria categoria in Model)
+        {
+            <tr>
+                <td>
+                    @categoria.Id
+                </td>
+                <td>
+                    @categoria.Nome
+                </td>
+                <td>
+                    <button class="btn btn-primary">Editar</button>
+                    <button  class="btn btn-danger">Remover</button>
+                </td>       
+            </tr>
+        }
+    </tbody>
+</table>
