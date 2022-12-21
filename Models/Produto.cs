@@ -17,12 +17,12 @@ namespace market.Models
        [Required(ErrorMessage = "Categoria é obrigatória")]
        [Display(Name = "Categorias")]
        public string Categoria {get ; set;} = String.Empty;
-       public int CategoriaID {get => int.Parse(Categoria);}
+       public int CategoriaID {get => Categoria == null ? default : int.Parse(Categoria);}
 
        [Required(ErrorMessage = "Fornecedor é obrigatório")]
        [Display(Name = "Fornecedores")]
        public string Fornecedor {get; set;} = String.Empty;
-       public int FornecedorID {get => int.Parse(Fornecedor);}
+       public int FornecedorID {get => Fornecedor == null ? default : int.Parse(Fornecedor);}
        
        [Required(ErrorMessage = "Preco de custo é obrigatório")]
        [Display(Name = "Preço de Custo")]

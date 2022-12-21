@@ -1,8 +1,9 @@
 @model market.Models.Categoria;
 @{
     Layout = "_LayoutAdmin";
+    ViewBag.Title = "Criar Categoria";
 }
-<h3>Nova Categoria</h3>
+<h3>@ViewBag.Title</h3>
 <br/>
 <form   class="form-horizontal" method="POST" asp-action="Salvar" asp-controller="Categorias">
     <input type="hidden" asp-for="Id" value="0"/>

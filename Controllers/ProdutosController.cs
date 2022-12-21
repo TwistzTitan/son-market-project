@@ -1,5 +1,6 @@
 using market.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace market.Controllers
 {
@@ -21,7 +22,19 @@ namespace market.Controllers
 
             if(!ModelState.IsValid){
 
-                return RedirectToAction("NovoProduto","Gestao");
+                
+                SelectListItem opcaoPadrao = new SelectListItem(){Text = "Selecione uma opção", Value="", Selected = true, Disabled = true};
+
+                ViewBag.Categorias = _repo.Categorias
+                    .Select( cat => new SelectListItem(){ Text = cat.Nome , Value = cat.Id.ToString()}).ToList();
+                ViewBag.Categorias.Add(opcaoPadrao);
+
+                ViewBag.Fornecedores = _repo.Fornecedores
+                    .Select( f => new SelectListItem() { Text = f.Nome, Value = f.Id.ToString()}).ToList();
+                ViewBag.Fornecedores.Add(opcaoPadrao);
+                
+
+                return View("../Gestao/NovoProduto");    
             }
 
             Domain.Entity.Categoria? categoria = _repo.Categorias.Find(produto.CategoriaID);

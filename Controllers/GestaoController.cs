@@ -55,10 +55,16 @@ namespace market.Controllers
         public IActionResult NovoProduto(){
             try 
             {
+                SelectListItem opcaoPadrao = new SelectListItem(){Text = "Selecione uma opção", Value=""};
+                
                 ViewBag.Categorias = _repo.Categorias
                     .Select( cat => new SelectListItem(){ Text = cat.Nome , Value = cat.Id.ToString()}).ToList();
+                ViewBag.Categorias.Add(opcaoPadrao);
+
                 ViewBag.Fornecedores = _repo.Fornecedores
                     .Select( f => new SelectListItem() { Text = f.Nome, Value = f.Id.ToString()}).ToList();
+                ViewBag.Fornecedores.Add(opcaoPadrao);
+                
                 return View();
             }
             catch{
