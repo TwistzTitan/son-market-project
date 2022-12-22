@@ -77,6 +77,16 @@ namespace market.Controllers
             }
 
         }
+        [HttpGet]
+        [Route("editarcategoria/{id?}")]
+        public IActionResult EditarCategoria(int id){
+            Models.Categoria categoria = _repo.Categorias
+                .Where(c => c.Id == id)
+                .Select(c => new Models.Categoria() {Id = c.Id , Nome = c.Nome, Status = c.Status})
+                .Single();
+
+            return View(model: categoria);
+        }
 
         // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         // public IActionResult Error()

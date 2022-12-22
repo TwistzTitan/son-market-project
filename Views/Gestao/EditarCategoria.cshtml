@@ -1,0 +1,18 @@
+@model market.Models.Categoria;
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Editar Categoria";
+}
+<h3>@ViewBag.Title</h3>
+<br/>
+<form class="was-validated" method="POST" asp-action="Editar" asp-controller="Categorias">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <input type="hidden" asp-for="Status" value="@Model.Status"/>    
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input class="form-control" type="text" asp-for="Nome" minlength="2" required/>
+        <span asp-validation-for="Nome"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+        <button class="btn btn-success" type="submit">Salvar</button>
+</form>

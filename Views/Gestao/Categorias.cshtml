@@ -21,35 +21,38 @@
     </div>
 </div> 
 <br/>
-<table id="tb_Categorias" class="table table-striped bordered">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nome
-            </th>
-            <th>
-                Ações
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Categoria categoria in Model)
-        {
+<form method="GET">
+
+    <table id="tb_Categorias" class="table table-striped bordered">
+        <thead>
             <tr>
-                <td>
-                    @categoria.Id
-                </td>
-                <td>
-                    @categoria.Nome
-                </td>
-                <td>
-                    <button class="btn btn-primary">Editar</button>
-                    <button  class="btn btn-danger">Remover</button>
-                </td>       
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Ações
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (Categoria categoria in Model)
+            {
+                <tr>
+                    <td>
+                        @categoria.Id
+                    </td>
+                    <td>
+                        @categoria.Nome
+                    </td>
+                    <td>
+                        <button asp-action="EditarCategoria" asp-controller="Gestao" asp-route-id="@categoria.Id" class="btn btn-primary">Editar</button>
+                        <button  class="btn btn-danger">Remover</button>
+                    </td>       
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

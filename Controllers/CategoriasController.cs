@@ -42,5 +42,30 @@ namespace market.Controllers
             return RedirectToAction("Categorias","Gestao");
         }
 
+        [HttpPost]
+        public IActionResult Editar(Models.Categoria categoriaEdit){
+
+            if(!ModelState.IsValid){
+                return View($"../Gestao/EditarCategoria/{categoriaEdit.Id}");
+            }
+            Domain.Entity.Categoria categoria = new Domain.Entity.Categoria(){
+                Id = categoriaEdit.Id,
+                Nome = categoriaEdit.Nome,
+                Status = categoriaEdit.Status
+            };
+
+            try{
+                _repo.Categorias.Update(categoria);
+                _repo.SaveChanges();
+                return RedirectToAction("Categorias","Gestao");
+            }
+            catch{
+                ViewBag.Message = "Não foi possível atualizar a categoria";
+
+                return RedirectToAction("Categorias","Gestao");   
+            }
+            
+        }
+    
     }
 }
