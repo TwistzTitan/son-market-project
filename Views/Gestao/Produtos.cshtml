@@ -3,9 +3,91 @@
     ViewBag.Title = "Produtos";
 }
 @model IEnumerable<market.Models.Produto>;
-<h2>@ViewBag.Title</h2>
-<br/>
-<a  asp-action="NovoProduto" asp-controller="Gestao" class="btn btn-success">
-    Criar novo Produto
-</a>
-<hr/>
+<script>
+    $(document).ready( function () {
+    $('#tb_Fornecedores').DataTable();
+} );
+</script>
+<div class="row">
+    <div class="col">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col"></div>
+    <div class="col">
+        <a  class="btn btn-success" asp-action="NovoProduto" asp-controller="Gestao" >Criar Produto</a>
+    </div>
+</div> 
+<br/>   
+    <table id="tb_Fornecedores" class="table table-striped bordered">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    Fornecedor
+                </th>
+                <th>
+                    Custo
+                </th>
+                <th>
+                    Venda
+                </th>
+                <th>
+                    Medida
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Produto prod in Model)
+            {
+                <tr>
+                    <td>
+                        @prod.Id
+                    </td>
+                    <td>
+                        @prod.Nome
+                    </td>
+                    <td>
+                        @prod.Categoria
+                    </td>
+                    <td>
+                        @prod.Fornecedor
+                    </td>
+                    <td>
+                        @prod.PrecoCusto
+                    </td>
+                    <td>
+                        @prod.PrecoVenda
+                    </td>
+                    <td>
+                        @prod.Medicao
+                    </td>
+                    <td>
+                        <form id="edit_form_Produto" method="GET" style="display: inline;">
+                            <button class="btn btn-primary" type="submit" asp-action="EditarProduto" asp-controller="Gestao" asp-route-id="@prod.Id">Editar</button>
+                        </form>
+                        <form id="del_form_Produto" method="POST" asp-action="Deletar" asp-controller="Produtos" style="display: inline;">
+                            <input type="hidden" id="Id" name="Id" value="@prod.Id"/>
+                            <input type="hidden" id="Nome" name="Nome" value="@prod.Nome"/>
+                            <input type="hidden" id="Categoria" name="Categoria" value="@prod.Categoria"/>
+                            <input type="hidden" id="Fornecedor" name="Fornecedor" value="@prod.Fornecedor"/>
+                            <input type="hidden" id="PrecoCusto" name="PrecoCusto" value="@prod.PrecoCusto"/>
+                            <input type="hidden" id="PrecoVenda" name="PrecoVenda" value="@prod.PrecoVenda"/>
+                            <input type="hidden" id="Medicao" name="Medicao" value="@prod.Medicao"/>
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
+                    </td>       
+                </tr>
+            }
+        </tbody>
+    </table>
