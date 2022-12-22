@@ -2,6 +2,8 @@ using AutoMapper;
 using market.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace market.Controllers
 {
@@ -46,6 +48,8 @@ namespace market.Controllers
         }
         public IActionResult Produtos(){
             var produtos = _repo.Produtos
+                .Include( p => p.Categoria)
+                .Include( p => p.Fornecedor)
                 .Where( p => p.Status)
                 .Select( p => _mapper.Map<Models.Produto>(p)).ToList();
             return View(model: produtos);

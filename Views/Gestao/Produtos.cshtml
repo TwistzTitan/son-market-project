@@ -58,10 +58,10 @@
                         @prod.Nome
                     </td>
                     <td>
-                        @prod.Categoria
+                        @prod.CategoriaNome
                     </td>
                     <td>
-                        @prod.Fornecedor
+                        @prod.FornecedorNome
                     </td>
                     <td>
                         @prod.PrecoCusto
@@ -81,6 +81,8 @@
                             <input type="hidden" id="Nome" name="Nome" value="@prod.Nome"/>
                             <input type="hidden" id="Categoria" name="Categoria" value="@prod.Categoria"/>
                             <input type="hidden" id="Fornecedor" name="Fornecedor" value="@prod.Fornecedor"/>
+                            <input type="hidden" id="CategoriaNome" name="CategoriaNome" value="@prod.CategoriaNome"/>
+                            <input type="hidden" id="FornecedorNome" name="FornecedorNome" value="@prod.FornecedorNome"/>
                             <input type="hidden" id="PrecoCusto" name="PrecoCusto" value="@prod.PrecoCusto"/>
                             <input type="hidden" id="PrecoVenda" name="PrecoVenda" value="@prod.PrecoVenda"/>
                             <input type="hidden" id="Medicao" name="Medicao" value="@prod.Medicao"/>

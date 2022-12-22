@@ -18,12 +18,14 @@ namespace market.Models
        [Display(Name = "Categorias")]
        public string Categoria {get ; set;} = String.Empty;
        public int CategoriaID {get => Categoria == null ? default : int.Parse(Categoria);}
+       public string CategoriaNome {get ; set;} = String.Empty;
 
        [Required(ErrorMessage = "Fornecedor é obrigatório")]
        [Display(Name = "Fornecedores")]
        public string Fornecedor {get; set;} = String.Empty;
        public int FornecedorID {get => Fornecedor == null ? default : int.Parse(Fornecedor);}
-       
+       public string FornecedorNome {get; set;} = String.Empty;
+
        [Required(ErrorMessage = "Preco de custo é obrigatório")]
        [Display(Name = "Preço de Custo")]
        public float PrecoCusto {get; set;}

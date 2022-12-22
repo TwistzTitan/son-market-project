@@ -20,7 +20,11 @@ builder.Services.AddMvc();
 #region Models Mapping
     var autoMapperConfig = new AutoMapper.MapperConfiguration( cfg => {
 
-            cfg.CreateMap<Entity.Produto,Model.Produto>();
+            cfg.CreateMap<Entity.Produto,Model.Produto>()
+                .ForMember( model => model.CategoriaID, opt => opt.MapFrom(e => e.Categoria.Id))
+                .ForMember( model => model.CategoriaNome, opt => opt.MapFrom(e => e.Categoria.Nome))
+                .ForMember( model => model.FornecedorNome, opt => opt.MapFrom(e => e.Fornecedor.Nome))
+                .ForMember( model => model.FornecedorID, opt => opt.MapFrom( e => e.Fornecedor.Id));
             cfg.CreateMap<Model.Produto,Entity.Produto>();
             cfg.CreateMap<Entity.Fornecedor,Model.Fornecedor>();
             cfg.CreateMap<Model.Fornecedor, Entity.Fornecedor>();
