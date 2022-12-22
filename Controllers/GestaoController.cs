@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace market.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/{action=Index}")]
     public class GestaoController : Controller
     {
         private readonly ILogger<GestaoController> _logger;
@@ -29,7 +29,6 @@ namespace market.Controllers
             return View();
         }
         
-        [Route("categorias")]
         public IActionResult Categorias(){
              var categorias = _repo.Categorias
                 .Where( cat => cat.Status )
@@ -39,24 +38,29 @@ namespace market.Controllers
             return View(model: categorias);
         }
         
-        [Route("fornecedores")]
         public IActionResult Fornecedores(){
-            return View();
+            var fornecedores = _repo.Fornecedores
+                .Where( f => f.Status)
+                .Select( f => new Models.Fornecedor(){
+                    Id = f.Id,
+                    Email = f.Email,
+                    Nome = f.Nome,
+                    Telefone = f.Telefone,
+                    Status = f.Status
+                })
+                .ToList();
+            return View(model:fornecedores);
         }
-        [Route("produtos")]
         public IActionResult Produtos(){
             return View();
         }
 
-        [Route("novacategoria")]
         public IActionResult NovaCategoria(){
             return View();
         }
-        [Route("novofornecedor")]
         public IActionResult NovoFornecedor(){
             return View();
         }
-        [Route("novoproduto")]
         public IActionResult NovoProduto(){
             try 
             {
@@ -78,7 +82,7 @@ namespace market.Controllers
 
         }
         [HttpGet]
-        [Route("editarcategoria/{id?}")]
+        [Route("[action]/{id?}")]
         public IActionResult EditarCategoria(int id){
             Models.Categoria categoria = _repo.Categorias
                 .Where(c => c.Id == id)

@@ -2,10 +2,72 @@
     Layout = "_LayoutAdmin";
     ViewBag.Title = "Fornecedores";
 }
-
-<h2>@ViewBag.Title</h2>
-<br/>
-<a  asp-action="NovoFornecedor" asp-controller="Gestao" class="btn btn-success">
-    Criar novo Fornecedor
-</a>
-<hr/>
+@model IEnumerable<market.Models.Fornecedor>;
+<script>
+    $(document).ready( function () {
+    $('#tb_Fornecedores').DataTable();
+} );
+</script>
+<div class="row">
+    <div class="col">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col"></div>
+    <div class="col">
+        <a  class="btn btn-success" asp-action="NovoFornecedor" asp-controller="Gestao" >Criar Fornecedor</a>
+    </div>
+</div> 
+<br/>   
+    <table id="tb_Fornecedores" class="table table-striped bordered">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Telefone
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Fornecedor fornecedor in Model)
+            {
+                <tr>
+                    <td>
+                        @fornecedor.Id
+                    </td>
+                    <td>
+                        @fornecedor.Nome
+                    </td>
+                    <td>
+                        @fornecedor.Email
+                    </td>
+                    <td>
+                        @fornecedor.Telefone
+                    </td>
+                    <td>
+                        <form id="edit_form_Categoria" method="GET" style="display: inline;">
+                            <button class="btn btn-primary" type="submit" asp-action="EditarFornecedor" asp-controller="Gestao" asp-route-id="@fornecedor.Id">Editar</button>
+                        </form>
+                        <form id="del_form_Categoria" method="POST" asp-action="Deletar" asp-controller="Fornecedores" style="display: inline;">
+                            <input type="hidden" id="Id" name="Id" value="@fornecedor.Id"/>
+                            <input type="hidden" id="Nome" name="Nome" value="@fornecedor.Nome"/>
+                            <input type="hidden" id="Email" name="Email" value="@fornecedor.Email"/>
+                            <input type="hidden" id="Telefone" name="Telefone" value="@fornecedor.Telefone"/>
+                            <input type="hidden" id="Status" name="Status" value="@fornecedor.Status.ToString()"/>
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
+                    </td>       
+                </tr>
+            }
+        </tbody>
+    </table>
