@@ -5,7 +5,7 @@
 @model IEnumerable<market.Models.Produto>;
 <script>
     $(document).ready( function () {
-    $('#tb_Fornecedores').DataTable();
+    $('#tb_Produtos').DataTable();
 } );
 </script>
 <div class="row">
@@ -18,7 +18,7 @@
     </div>
 </div> 
 <br/>   
-    <table id="tb_Fornecedores" class="table table-striped bordered">
+    <table id="tb_Produtos" class="table table-striped bordered">
         <thead>
             <tr>
                 <th>
@@ -78,14 +78,6 @@
                         </form>
                         <form id="del_form_Produto" method="POST" asp-action="Deletar" asp-controller="Produtos" style="display: inline;">
                             <input type="hidden" id="Id" name="Id" value="@prod.Id"/>
-                            <input type="hidden" id="Nome" name="Nome" value="@prod.Nome"/>
-                            <input type="hidden" id="Categoria" name="Categoria" value="@prod.Categoria"/>
-                            <input type="hidden" id="Fornecedor" name="Fornecedor" value="@prod.Fornecedor"/>
-                            <input type="hidden" id="CategoriaNome" name="CategoriaNome" value="@prod.CategoriaNome"/>
-                            <input type="hidden" id="FornecedorNome" name="FornecedorNome" value="@prod.FornecedorNome"/>
-                            <input type="hidden" id="PrecoCusto" name="PrecoCusto" value="@prod.PrecoCusto"/>
-                            <input type="hidden" id="PrecoVenda" name="PrecoVenda" value="@prod.PrecoVenda"/>
-                            <input type="hidden" id="Medicao" name="Medicao" value="@prod.Medicao"/>
                             <button type="submit" class="btn btn-danger">Remover</button>
                         </form>
                     </td>       

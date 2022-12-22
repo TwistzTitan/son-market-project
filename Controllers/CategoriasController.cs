@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using market.Models;
+using CategoriaModel =  market.Models.Categoria;
+using Entity = market.Domain.Entity.Categoria;
 using market.Data;
-using market.Domain.Entity;
 namespace market.Controllers
 {
     [Route("[controller]/[action]")]
@@ -22,14 +20,14 @@ namespace market.Controllers
         }
 
         [HttpPost]
-        public IActionResult Salvar(Models.Categoria categoria)
+        public IActionResult Salvar(CategoriaModel categoria)
         {
             if(!ModelState.IsValid){
                 Debug.Print("Model validation failed: {0} - {1} - {2}", categoria.Nome, categoria.Status, categoria.Id);
                 return View("../Gestao/NovaCategoria");
             }
             
-            Domain.Entity.Categoria db_categoria = new Domain.Entity.Categoria()
+            Entity db_categoria = new Entity()
                 {   
                     Nome = categoria.Nome,
                     Status = true
@@ -43,12 +41,12 @@ namespace market.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(Models.Categoria categoriaEdit){
+        public IActionResult Editar(CategoriaModel categoriaEdit){
 
             if(!ModelState.IsValid){
                 return View($"../Gestao/EditarCategoria/{categoriaEdit.Id}");
             }
-            Domain.Entity.Categoria categoria = new Domain.Entity.Categoria(){
+            Entity categoria = new Entity(){
                 Id = categoriaEdit.Id,
                 Nome = categoriaEdit.Nome,
                 Status = categoriaEdit.Status
@@ -68,14 +66,14 @@ namespace market.Controllers
         }
     
         [HttpPost]
-        public IActionResult Deletar(Models.Categoria categoriaDel){
+        public IActionResult Deletar(CategoriaModel categoriaDel){
             
             if(!ModelState.IsValid){
 
                 return RedirectToAction("Categorias","Gestao");
             }
 
-            Domain.Entity.Categoria categoria = new Domain.Entity.Categoria()
+            Entity categoria = new Entity()
             {
                 Id = categoriaDel.Id,
                 Nome = categoriaDel.Nome,

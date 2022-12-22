@@ -1,0 +1,57 @@
+@model market.Models.Produto;
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Editar Produto";
+}
+<h3>@ViewBag.Title</h3>
+<br/>
+<form class="was-validated" method="POST" asp-action="Editar" asp-controller="Produtos">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input class="form-control" asp-for="Nome" required/>
+        <span class="invalid-feedback" asp-validation-for="Nome"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Categoria"></label>
+        <select class="form-control" asp-for="Categoria" asp-items="@ViewBag.Categorias" required></select>
+        <div class="invalid-feedback" asp-validation-for="Categoria"></div>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Fornecedor"></label>
+        <select class="form-control" asp-for="Fornecedor" asp-items="@ViewBag.Fornecedores" required></select>
+        <div class="invalid-feedback" asp-validation-for="Fornecedor"></div>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="PrecoCusto"></label>
+        <input class="form-control" asp-for="PrecoCusto" type="number" min="0" step="any" required/>
+        <div class="invalid-feedback" asp-validation-for="PrecoCusto"></div>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="PrecoVenda"></label>
+        <input class="form-control" asp-for="PrecoVenda" type="number" min="0" step="any" required/>
+        <div class="invalid-feedback" asp-validation-for="PrecoVenda"></div>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Medicao"></label>
+        <select class="form-control" asp-for="Medicao" required>
+            <option value="-1" >Selecione uma medida</option>
+            <option value="0">Litro</option>
+            <option value="1">Kilo</option>
+            <option value="2">Unidade</option>
+        </select>
+        <div class="invalid-feedback" asp-validation-for="Medicao"></div>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    
+    <br/>
+    <button class="btn btn-success" type="submit">Salvar</button>
+</form>
