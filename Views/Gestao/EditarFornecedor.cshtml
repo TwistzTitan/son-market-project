@@ -1,0 +1,30 @@
+@model market.Models.Fornecedor;
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Editar Fornecedor";
+}
+<h3>@ViewBag.Title</h3>
+<br/>
+<form class="was-validated" method="POST" asp-action="Editar" asp-controller="Fornecedores">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <input type="hidden" asp-for="Status" value="@Model.Status.ToString()"/>    
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input class="form-control" type="text" asp-for="Nome" minlength="2" required/>
+        <span asp-validation-for="Nome"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input class="form-control" type="text" asp-for="Email" required/>
+        <span asp-validation-for="Email"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Telefone"></label>
+        <input class="form-control" type="text" asp-for="Telefone" required/>
+        <span asp-validation-for="Telefone"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+        <button class="btn btn-success" type="submit">Salvar</button>
+</form>

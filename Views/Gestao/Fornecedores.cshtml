@@ -55,10 +55,10 @@
                         @fornecedor.Telefone
                     </td>
                     <td>
-                        <form id="edit_form_Categoria" method="GET" style="display: inline;">
+                        <form id="edit_form_Fornecedor" method="GET" style="display: inline;">
                             <button class="btn btn-primary" type="submit" asp-action="EditarFornecedor" asp-controller="Gestao" asp-route-id="@fornecedor.Id">Editar</button>
                         </form>
-                        <form id="del_form_Categoria" method="POST" asp-action="Deletar" asp-controller="Fornecedores" style="display: inline;">
+                        <form id="del_form_Fornecedor" method="POST" asp-action="Deletar" asp-controller="Fornecedores" style="display: inline;">
                             <input type="hidden" id="Id" name="Id" value="@fornecedor.Id"/>
                             <input type="hidden" id="Nome" name="Nome" value="@fornecedor.Nome"/>
                             <input type="hidden" id="Email" name="Email" value="@fornecedor.Email"/>

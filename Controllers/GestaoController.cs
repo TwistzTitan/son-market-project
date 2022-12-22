@@ -87,6 +87,16 @@ namespace market.Controllers
 
             return View(model: categoria);
         }
+        [HttpGet]
+        [Route("[action]/{id?}")]
+        public IActionResult EditarFornecedor(int id){
+            Models.Fornecedor fornecedor = _repo.Fornecedores
+                .Where(f => f.Id == id)
+                .Select(f => _mapper.Map<Models.Fornecedor>(f))
+                .Single();
+
+            return View(model: fornecedor);
+        }
 
         // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         // public IActionResult Error()
