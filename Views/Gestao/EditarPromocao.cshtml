@@ -1,0 +1,30 @@
+@model market.Models.Promocao;
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Editar Promocao";
+}
+<h3>@ViewBag.Title</h3>
+<br/>
+<form class="was-validated" method="POST" asp-action="Editar" asp-controller="Promocoes">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <input type="hidden" asp-for="Status" value="@Model.Status.ToString()"/>    
+    <div class="form-group">
+        <label asp-for="Nome"></label>
+        <input class="form-control" type="text" asp-for="Nome" minlength="2" required/>
+        <span asp-validation-for="Nome"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Produto"></label>
+        <select class="form-control" type="text" asp-for="Produto" asp-items="@ViewBag.Produtos" required></select>
+        <span asp-validation-for="Produto"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Porcentagem"></label>
+        <input class="form-control" type="number" step="any" max="50" min="1" asp-for="Porcentagem" required/>
+        <span asp-validation-for="Porcentagem"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+        <button class="btn btn-success" type="submit">Salvar</button>
+</form>

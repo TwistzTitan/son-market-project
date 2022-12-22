@@ -15,7 +15,7 @@ namespace market.Models
        [Required(ErrorMessage = "Categoria é obrigatória")]
        [Display(Name = "Categorias")]
        public string Categoria {get ; set;} = String.Empty;
-       public int CategoriaID {get => Categoria == null ? default : int.Parse(Categoria);}
+       public int CategoriaID {get => Categoria == null ? default : int.Parse(Categoria) ; set {}}
        public string CategoriaNome {get ; set;} = String.Empty;
 
        [Required(ErrorMessage = "Fornecedor é obrigatório")]

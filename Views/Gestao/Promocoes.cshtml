@@ -1,0 +1,69 @@
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Promoções";
+}
+@model IEnumerable<market.Models.Promocao>;
+<script>
+    $(document).ready( function () {
+    $('#tb_Promocoes').DataTable();
+} );
+</script>
+<div class="row">
+    <div class="col">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col"></div>
+    <div class="col">
+        <a  class="btn btn-success" asp-action="NovaPromocao" asp-controller="Gestao" >Criar Promoção</a>
+    </div>
+</div> 
+<br/>   
+    <table id="tb_Promocoes" class="table table-striped bordered">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Nome do Produto
+                </th>
+                <th>
+                    Porcentagem
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Promocao promocao in Model)
+            {
+                <tr>
+                    <td>
+                        @promocao.Id
+                    </td>
+                    <td>
+                        @promocao.Nome
+                    </td>
+                    <td>
+                        @promocao.ProdutoNome
+                    </td>
+                    <td>
+                        @promocao.Porcentagem
+                    </td>
+                    <td>
+                        <form id="edit_form_Fornecedor" method="GET" style="display: inline;">
+                            <button class="btn btn-primary" type="submit" asp-action="EditarPromocao" asp-controller="Gestao" asp-route-id="@promocao.Id">Editar</button>
+                        </form>
+                        <form id="del_form_Fornecedor" method="POST" asp-action="Deletar" asp-controller="Promocoes" style="display: inline;">
+                            <input type="hidden" id="Id" name="Id" value="@promocao.Id"/>
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
+                    </td>       
+                </tr>
+            }
+        </tbody>
+    </table>

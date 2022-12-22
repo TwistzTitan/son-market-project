@@ -21,17 +21,19 @@ builder.Services.AddMvc();
     var autoMapperConfig = new AutoMapper.MapperConfiguration( cfg => {
 
             cfg.CreateMap<Entity.Produto,Model.Produto>()
-                .ForMember( model => model.CategoriaID, opt => opt.MapFrom(e => e.Categoria.Id))
+                .ForMember( model => model.Categoria, opt => opt.MapFrom(e => e.Categoria.Id.ToString()))
                 .ForMember( model => model.CategoriaNome, opt => opt.MapFrom(e => e.Categoria.Nome))
                 .ForMember( model => model.FornecedorNome, opt => opt.MapFrom(e => e.Fornecedor.Nome))
-                .ForMember( model => model.FornecedorID, opt => opt.MapFrom( e => e.Fornecedor.Id));
+                .ForMember( model => model.Fornecedor, opt => opt.MapFrom( e => e.Fornecedor.Id.ToString()));
             cfg.CreateMap<Model.Produto,Entity.Produto>();
             cfg.CreateMap<Entity.Fornecedor,Model.Fornecedor>();
             cfg.CreateMap<Model.Fornecedor, Entity.Fornecedor>();
             cfg.CreateMap<Model.Categoria,Entity.Categoria>();
             cfg.CreateMap<Entity.Categoria,Model.Categoria>();
             cfg.CreateMap<Model.Promocao,Entity.Promocao>();
-            cfg.CreateMap<Entity.Promocao,Model.Promocao>();
+            cfg.CreateMap<Entity.Promocao,Model.Promocao>()
+                .ForMember( model => model.Produto, opt => opt.MapFrom( e => e.Produto.Id.ToString()))
+                .ForMember( model => model.ProdutoNome, opt => opt.MapFrom( e => e.Produto.Nome));
             cfg.CreateMap<Model.Estoque,Entity.Estoque>();
             cfg.CreateMap<Entity.Estoque,Model.Estoque>();
             cfg.CreateMap<Model.Saida,Entity.Saida>();

@@ -54,11 +54,27 @@ namespace market.Controllers
                 .Select( p => _mapper.Map<Models.Produto>(p)).ToList();
             return View(model: produtos);
         }
+        public IActionResult Promocoes(){
+            var promocoes = _repo.Promocoes
+                .Include( p => p.Produto)
+                .Where( p => p.Status)
+                .Select( p => _mapper.Map<Models.Promocao>(p)).ToList();
+            return View(model: promocoes);
+        }
 
         public IActionResult NovaCategoria(){
             return View();
         }
         public IActionResult NovoFornecedor(){
+            return View();
+        }
+        public IActionResult NovaPromocao(){
+            
+           ViewBag.Produtos = _repo.Produtos
+                .Where(p => p.Status)
+                .Select(p => new SelectListItem(){Text = p.Nome, Value = p.Id.ToString()})
+                .ToList();
+                
             return View();
         }
         public IActionResult NovoProduto(){
@@ -104,24 +120,59 @@ namespace market.Controllers
         [HttpGet]
         [Route("[action]/{id?}")]
         public IActionResult EditarProduto(int id){
-            SelectListItem opcaoPadrao = new SelectListItem(){Text = "Selecione uma opção", Value=""};
-                
-                ViewBag.Categorias = _repo.Categorias
-                    .Select( cat => new SelectListItem(){ Text = cat.Nome , Value = cat.Id.ToString()}).ToList();
-                ViewBag.Categorias.Add(opcaoPadrao);
-
-                ViewBag.Fornecedores = _repo.Fornecedores
-                    .Select( f => new SelectListItem() { Text = f.Nome, Value = f.Id.ToString()}).ToList();
-                ViewBag.Fornecedores.Add(opcaoPadrao);
-                
-            Models.Produto produtos = _repo.Produtos
+            Models.Produto prod = _repo.Produtos
                 .Include( p => p.Fornecedor)
                 .Include( p => p.Categoria)
                 .Where(p => p.Id == id)
                 .Select(p => _mapper.Map<Models.Produto>(p))
                 .Single();
+            SelectListItem opcaoPadrao = new SelectListItem(){Text = "Selecione uma opção", Value=""};
+                
+                ViewBag.Categorias = _repo.Categorias
+                    .Select( cat => new SelectListItem()
+                        {   Text = cat.Nome , 
+                            Value = cat.Id.ToString(), 
+                            Selected = cat.Id == prod.CategoriaID
+                        })
+                    .ToList();
+                ViewBag.Categorias.Add(opcaoPadrao);
 
-            return View(model: produtos);
+                ViewBag.Fornecedores = _repo.Fornecedores
+                    .Select( f => new SelectListItem() 
+                    {   Text = f.Nome, 
+                        Value = f.Id.ToString(), 
+                        Selected = f.Id == prod.FornecedorID 
+                    })
+                    .ToList();
+                ViewBag.Fornecedores.Add(opcaoPadrao);
+                
+
+            return View(model: prod);
+        }
+        [HttpGet]
+        [Route("[action]/{id?}")]
+        public IActionResult EditarPromocao(int id){
+            Models.Promocao promocao = _repo.Promocoes
+                .Include( p => p.Produto)
+                .Where(p => p.Id == id)
+                .Select(p => _mapper.Map<Models.Promocao>(p))
+                .Single();
+
+           
+            SelectListItem opcaoPadrao = new SelectListItem(){Text = "Selecione uma opção", Value=""};
+                
+            ViewBag.Produtos = _repo.Produtos
+                .Select( p => new SelectListItem()
+                { 
+                    Text = p.Nome , 
+                    Value = p.Id.ToString(), 
+                    Selected = p.Id == promocao.ProdutoID 
+                })
+                .ToList();
+            ViewBag.Produtos.Add(opcaoPadrao);
+
+
+            return View(model: promocao);
         }
 
         // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
