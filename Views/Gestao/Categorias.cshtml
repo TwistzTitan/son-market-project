@@ -20,9 +20,7 @@
         <a  class="btn btn-success" asp-action="NovaCategoria" asp-controller="Gestao" >Criar Categoria</a>
     </div>
 </div> 
-<br/>
-<form method="GET">
-
+<br/>   
     <table id="tb_Categorias" class="table table-striped bordered">
         <thead>
             <tr>
@@ -48,11 +46,18 @@
                         @categoria.Nome
                     </td>
                     <td>
-                        <button asp-action="EditarCategoria" asp-controller="Gestao" asp-route-id="@categoria.Id" class="btn btn-primary">Editar</button>
-                        <button  class="btn btn-danger">Remover</button>
+                        <form id="edit_form_Categoria" method="GET" style="display: inline;">
+                            <button class="btn btn-primary" type="submit" asp-action="EditarCategoria" asp-controller="Gestao" asp-route-id="@categoria.Id">Editar</button>
+                        </form>
+                        <form id="del_form_Categoria" method="POST" asp-action="Deletar" asp-controller="Categorias" style="display: inline;">
+                            <input type="hidden" id="Id" name="Id" value="@categoria.Id"/>
+                            <input type="hidden" id="Nome" name="Nome" value="@categoria.Nome"/>
+                            <input type="hidden" id="Status" name="Status" value="@categoria.Status.ToString()"/>
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
                     </td>       
                 </tr>
             }
         </tbody>
     </table>
-</form>
+

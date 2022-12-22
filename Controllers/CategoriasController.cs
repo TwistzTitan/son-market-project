@@ -7,7 +7,7 @@ using market.Data;
 using market.Domain.Entity;
 namespace market.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class CategoriasController : Controller
     {
         private readonly ILogger<CategoriasController> _logger;
@@ -65,6 +65,27 @@ namespace market.Controllers
                 return RedirectToAction("Categorias","Gestao");   
             }
             
+        }
+    
+        [HttpPost]
+        public IActionResult Deletar(Models.Categoria categoriaDel){
+            
+            if(!ModelState.IsValid){
+
+                return RedirectToAction("Categorias","Gestao");
+            }
+
+            Domain.Entity.Categoria categoria = new Domain.Entity.Categoria()
+            {
+                Id = categoriaDel.Id,
+                Nome = categoriaDel.Nome,
+                Status = false
+            };
+
+            _repo.Categorias.Update(categoria);
+            _repo.SaveChanges();
+
+            return RedirectToAction("Categorias","Gestao");
         }
     
     }
