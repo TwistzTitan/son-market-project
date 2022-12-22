@@ -2,7 +2,7 @@
     Layout = "_LayoutAdmin";
     ViewBag.Title = "Produtos";
 }
-
+@model IEnumerable<market.Models.Produto>;
 <h2>@ViewBag.Title</h2>
 <br/>
 <a  asp-action="NovoProduto" asp-controller="Gestao" class="btn btn-success">

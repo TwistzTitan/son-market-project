@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using market.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 
 namespace market.Controllers
 {
@@ -14,14 +9,18 @@ namespace market.Controllers
     public class GestaoController : Controller
     {
         private readonly ILogger<GestaoController> _logger;
-        private readonly ApplicationDbContext _repo; 
+        private readonly ApplicationDbContext _repo;
+
+        private readonly IMapper _mapper; 
         public GestaoController(
             ILogger<GestaoController> logger,
-            ApplicationDbContext context
+            ApplicationDbContext context,
+            IMapper mapper
             )
         {
             _logger = logger;
             _repo = context;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -32,7 +31,7 @@ namespace market.Controllers
         public IActionResult Categorias(){
              var categorias = _repo.Categorias
                 .Where( cat => cat.Status )
-                .Select( cat => new Models.Categoria(){Id = cat.Id, Nome = cat.Nome, Status = cat.Status })
+                .Select( cat => _mapper.Map<Models.Categoria>(cat))
                 .ToList();
                 
             return View(model: categorias);
@@ -41,18 +40,15 @@ namespace market.Controllers
         public IActionResult Fornecedores(){
             var fornecedores = _repo.Fornecedores
                 .Where( f => f.Status)
-                .Select( f => new Models.Fornecedor(){
-                    Id = f.Id,
-                    Email = f.Email,
-                    Nome = f.Nome,
-                    Telefone = f.Telefone,
-                    Status = f.Status
-                })
+                .Select( f => _mapper.Map<Models.Fornecedor>(f))
                 .ToList();
             return View(model:fornecedores);
         }
         public IActionResult Produtos(){
-            return View();
+            var produtos = _repo.Produtos
+                .Where( p => p.Status)
+                .Select( p => _mapper.Map<Models.Produto>(p)).ToList();
+            return View(model: produtos);
         }
 
         public IActionResult NovaCategoria(){
