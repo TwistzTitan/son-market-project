@@ -5,8 +5,25 @@
 @model IEnumerable<market.Models.Promocao>;
 <script>
     $(document).ready( function () {
-    $('#tb_Promocoes').DataTable();
-} );
+    $('#tb_Promocoes').DataTable(
+        {
+            "info": false,
+            "language": {
+                "lengthMenu": "Exibindo _MENU_ registros por página",
+                "zeroRecords": "Nenhum resultado encontrado",
+                "info": "Exibindo _PAGE de _PAGES_",
+                "infoEmpty": "Nenhum resultado disponível",
+                "search": "Buscar: ", 
+                "paginate": {
+                    "first": "Primeira",
+                    "last" : "Última",
+                    "next" : "Próxima",
+                    "previous": "Anterior"
+                }
+            }
+        }
+    );
+    } );
 </script>
 <div class="row">
     <div class="col">
@@ -52,7 +69,7 @@
                         @promocao.ProdutoNome
                     </td>
                     <td>
-                        @promocao.Porcentagem
+                        @promocao.Porcentagem %
                     </td>
                     <td>
                         <form id="edit_form_Fornecedor" method="GET" style="display: inline;">
