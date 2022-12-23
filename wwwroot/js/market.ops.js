@@ -1,6 +1,7 @@
 
-const PRODUTO_ADDR = "https://localhost:7166/Produtos/"
-const BUSCAR_PRODUTO_ACTION = "Buscar";
+const BASE_ADDR = "https://localhost:7166";
+const BUSCAR_PRODUTO_ACTION = "/Produtos/Buscar";
+const FINALIZAR_COMPRA_ACTION = "/Venda/Concluir";
 
 class Produto {
     
@@ -66,7 +67,7 @@ class Item {
 }
 
 itemHTML = (i) => `
-    <tr id="item_${i.id}}">
+    <tr id="item_${i.id}">
         <td>${i.produtoId}</td>
         <td>${i.produtoNome}</td>
         <td>${i.qtd}</td>
@@ -79,11 +80,12 @@ itemHTML = (i) => `
 
 adicionarItemTabela = (i) => $('#tb_Itens').append(itemHTML(i))
 
+
 removerItem = (id) => {
     if(confirm("Deseja remover o item da compra?")){
         var filteredItens =  itensDeVenda.filter( i => i.id !== id);
         itensDeVenda = filteredItens;
-        var item = document.getElementById(`item_${id}}`)
+        var item = document.getElementById(`item_${id}`);
         item.remove();
     }
 }
@@ -100,12 +102,15 @@ let itensDeVenda = [];
 
 $('#btn_Busca').click(e => buscarProduto($('#cod_Busca').val()));
 $('#btn_Confirma').click(e => { e.preventDefault(); confirmaProduto($('#qtdProd').val())});
-
+$('#btn_Cancelar').click(e => { e.preventDefault(); cancelarCompra()});
+$('#btn_Finalizar').click(e => finalizarCompra());
+$('#modal_ValorPago').change(e => calcularTroco(e.target.value));
+// $('#modal_FinalizarCompra').on('hide.bs.modal', e => console.log('hide modal action'))
+// $('#modal_FinalizarCompra').on('hidden.bs.modal', e => console.log('hidden modal action'))
 //Funções
 
-
 function buscarProduto (id){
-    let POST_COMMAND = PRODUTO_ADDR + BUSCAR_PRODUTO_ACTION;
+    let POST_COMMAND = BASE_ADDR + BUSCAR_PRODUTO_ACTION;
     $.post(
         POST_COMMAND,
         {id}, 
@@ -116,6 +121,39 @@ function buscarProduto (id){
         alert(response);
         limparInformacoes();
     })
+}
+
+function cancelarCompra(){
+    limparInformacoes()
+    for(var i = 0; i < itensDeVenda.length; i++){
+        let itemId = itensDeVenda[i].id;
+        var item = document.getElementById(`item_${itemId}`);
+        item.remove();
+    }
+    itensDeVenda = [];
+}
+
+function finalizarCompra(){
+    let totalCompra = 0;
+    itensDeVenda.forEach( i => totalCompra += i.total);
+    $('#totalCompra').html(`R$ ${totalCompra}`);
+}
+
+function calcularTroco(valorPago){
+    let totalCompra = 0;
+    itensDeVenda.forEach( i => totalCompra += i.total);
+
+    let troco = valorPago - totalCompra;
+
+    if(troco == 0 || troco > 0){
+        $('#modal_btn_Finalizar').removeAttr('disabled');
+        $('#modal_ValorTroco').val(troco);
+    }
+    else{
+        alert("Valor pago insuficiente");
+        $('#modal_btn_Finalizar').attr('disabled','true');
+        $('#modal_ValorTroco').val('');
+    }
 }
 
 function produtoEncontrado(p){
