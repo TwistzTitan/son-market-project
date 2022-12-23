@@ -46,7 +46,7 @@ namespace market.Controllers
                     {
                         Nome = model.Nome,
                         Produto = produto,
-                        Porcentagem = model.Porcentagem,
+                        Porcentagem = model.CalculoPorcentagem,
                         Status = true
                     };
                 

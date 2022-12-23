@@ -27,5 +27,6 @@ namespace market.Models
         [Range(1,50)]
         public float Porcentagem {get; set;}
         public bool Status {get; set;}
+        public float CalculoPorcentagem => Porcentagem/100;
     }
 }
