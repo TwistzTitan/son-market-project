@@ -35,7 +35,9 @@ builder.Services.AddMvc();
                 .ForMember( model => model.Produto, opt => opt.MapFrom( e => e.Produto.Id.ToString()))
                 .ForMember( model => model.ProdutoNome, opt => opt.MapFrom( e => e.Produto.Nome));
             cfg.CreateMap<Model.Estoque,Entity.Estoque>();
-            cfg.CreateMap<Entity.Estoque,Model.Estoque>();
+            cfg.CreateMap<Entity.Estoque,Model.Estoque>()
+                .ForMember( model => model.Produto, opt => opt.MapFrom( e => e.Produto.Id.ToString()))
+                .ForMember( model => model.ProdutoNome, opt => opt.MapFrom( e => e.Produto.Nome));
             cfg.CreateMap<Model.Saida,Entity.Saida>();
             cfg.CreateMap<Entity.Saida,Model.Saida>();
             cfg.CreateMap<Entity.Venda,Model.Venda>();

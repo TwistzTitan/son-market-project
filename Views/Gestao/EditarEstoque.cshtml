@@ -1,0 +1,24 @@
+@model market.Models.Estoque;
+@{
+    Layout = "_LayoutAdmin";
+    ViewBag.Title = "Editar Promocao";
+}
+<h3>@ViewBag.Title</h3>
+<br/>
+<form class="was-validated" method="POST" asp-action="Editar" asp-controller="Estoques">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <div class="form-group">
+        <label asp-for="Produto"></label>
+        <select class="form-control" type="text" asp-for="Produto" asp-items="@ViewBag.Produtos" required></select>
+        <span asp-validation-for="Produto"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantidade"></label>
+        <input class="form-control" type="number" asp-for="Quantidade" min="1" step="any" required/>
+        <span asp-validation-for="Quantidade"></span>
+        <div class="valid-feedback">Correto</div>
+    </div>
+    
+        <button class="btn btn-success" type="submit">Salvar</button>
+</form>

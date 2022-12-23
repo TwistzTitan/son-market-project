@@ -61,6 +61,13 @@ namespace market.Controllers
                 .Select( p => _mapper.Map<Models.Promocao>(p)).ToList();
             return View(model: promocoes);
         }
+        public IActionResult Estoques(){
+            var estoques = _repo.Estoques
+                .Include(e => e.Produto)
+                .Where( e => e.Quantidade > 0)
+                .Select( e => _mapper.Map<Models.Estoque>(e)).ToList();
+            return View(model: estoques);
+        }
 
         public IActionResult NovaCategoria(){
             return View();
@@ -69,6 +76,15 @@ namespace market.Controllers
             return View();
         }
         public IActionResult NovaPromocao(){
+            
+           ViewBag.Produtos = _repo.Produtos
+                .Where(p => p.Status)
+                .Select(p => new SelectListItem(){Text = p.Nome, Value = p.Id.ToString()})
+                .ToList();
+                
+            return View();
+        }
+        public IActionResult NovoEstoque(){
             
            ViewBag.Produtos = _repo.Produtos
                 .Where(p => p.Status)
