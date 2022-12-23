@@ -2,6 +2,7 @@ using AutoMapper;
 using market.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Entity = market.Domain.Entity.Produto;
 using ProdutoModel = market.Models.Produto;
 namespace market.Controllers
@@ -21,7 +22,31 @@ namespace market.Controllers
                 _repo = context;
                 _mapper = mapper;
         }
+
+        [HttpPost]
+        public IActionResult Buscar(int id){
             
+           
+            if(id > 0){
+             Entity? produto = _repo.Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Fornecedor)
+                .Where( p => p.Id == id && p.Status).FirstOrDefault();
+              
+              if(produto == null){
+                Response.StatusCode = 404;
+                return Json("Produto indisponível");
+              }
+              
+              ProdutoModel model = _mapper.Map<ProdutoModel>(produto);
+              Response.StatusCode = 200;
+              return Json(model);
+            }
+            
+            Response.StatusCode = 400;
+            return Json("Erro na requisição");
+        }
+
         [HttpPost]
         public IActionResult Salvar(ProdutoModel model){
 
@@ -64,8 +89,6 @@ namespace market.Controllers
 
                 return RedirectToAction("Produtos","Gestao");
         }
-        
-            
         [HttpPost]
         public IActionResult Editar(ProdutoModel model){
 
