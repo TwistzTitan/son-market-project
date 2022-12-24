@@ -1,7 +1,7 @@
 
-const BASE_ADDR = "https://localhost:7166";
-const BUSCAR_PRODUTO_ACTION = "/Produtos/Buscar";
-const FINALIZAR_COMPRA_ACTION = "/Venda/Concluir";
+const BASE_ADDR = "https://localhost:7166/";
+const BUSCAR_PRODUTO_ACTION = "Vendas/api/v1/BuscarProdutoVenda";
+const FINALIZAR_COMPRA_ACTION = "Vendas/api/v1/FinalizarCompra";
 
 class Produto {
     
@@ -57,7 +57,7 @@ class Item {
         item.id = Item.itemId; 
         item.produtoId = prod.id;
         item.produtoNome = prod.nome;
-        item.qtd = qtd;
+        item.quantidade = qtd;
         item.preco = prod.preco;
         item.medida = prod.medicaoNome;
         item.total = qtd * item.preco;
@@ -66,11 +66,22 @@ class Item {
     }
 }
 
+class Venda {
+    valorPago;
+    troco;
+    total = 0;
+    itens = [];
+
+    calcularTotal(){
+        this.itens.forEach( i => this.total += i.total)
+    }
+}
+
 itemHTML = (i) => `
     <tr id="item_${i.id}">
         <td>${i.produtoId}</td>
         <td>${i.produtoNome}</td>
-        <td>${i.qtd}</td>
+        <td>${i.quantidade}</td>
         <td>${i.preco}</td>
         <td>${i.medida}</td>
         <td>${i.total}</td>
@@ -105,6 +116,7 @@ $('#btn_Confirma').click(e => { e.preventDefault(); confirmaProduto($('#qtdProd'
 $('#btn_Cancelar').click(e => { e.preventDefault(); cancelarCompra()});
 $('#btn_Finalizar').click(e => finalizarCompra());
 $('#modal_ValorPago').change(e => calcularTroco(e.target.value));
+$('#modal_btn_Finalizar').click(e => processarCompra())
 // $('#modal_FinalizarCompra').on('hide.bs.modal', e => console.log('hide modal action'))
 // $('#modal_FinalizarCompra').on('hidden.bs.modal', e => console.log('hidden modal action'))
 //Funções
@@ -131,6 +143,27 @@ function cancelarCompra(){
         item.remove();
     }
     itensDeVenda = [];
+}
+
+function processarCompra(){
+
+    let venda = new Venda();
+    venda.itens = itensDeVenda;
+    venda.valorPago = $('#modal_ValorPago').val();
+    venda.troco = $('#modal_ValorTroco').val();
+    venda.calcularTotal();
+
+    $.ajax(
+        {
+            method: 'POST',
+            url: BASE_ADDR+FINALIZAR_COMPRA_ACTION,
+            data: JSON.stringify(venda),
+            contentType: 'application/json',
+            sucess: (data) => console.log(data),
+            error:(e,data) => console.log('Error: '+ e + ' Data: '+ data)
+        }
+    )
+
 }
 
 function finalizarCompra(){

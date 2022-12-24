@@ -25,51 +25,6 @@ namespace market.Controllers
         }
 
         [HttpPost]
-        public IActionResult Buscar(int id){
-            
-           
-            if(id > 0){
-              
-              //Verifica se o produto existe em estoque com ou sem promoções
-            var query =      from p in _repo.Produtos
-                             where p.Id == id && p.Status
-                             join e in _repo.Estoques on p.Id equals e.Produto.Id into pestq
-                             from p2 in pestq
-                             join pr in _repo.Promocoes on p2.Produto.Id equals pr.Produto.Id into promopro
-                             from prowithpromo in promopro.DefaultIfEmpty()
-                             select new {
-                                Produto = p2.Produto,
-                                Categoria= p2.Produto.Categoria,
-                                Fornecedor = p2.Produto.Fornecedor,
-                                PorcentagemPromocao = prowithpromo.Porcentagem,
-                                PromoStatus = prowithpromo.Status
-                             };
-                             
-                             
-             var produtoQuery =  query.FirstOrDefault();
-             
-
-              if(produtoQuery == null){
-                Response.StatusCode = 404;
-                return Json("Produto indisponível");
-              }
-
-              if(produtoQuery.PromoStatus)
-                produtoQuery.Produto.PrecoVenda *= (produtoQuery.PorcentagemPromocao); 
-            
-              produtoQuery.Produto.Categoria = produtoQuery.Categoria;
-              produtoQuery.Produto.Fornecedor = produtoQuery.Fornecedor;
-              
-              ProdutoModel model = _mapper.Map<ProdutoModel>(produtoQuery.Produto);
-              Response.StatusCode = 200;
-              return Json(model);
-            }
-            
-            Response.StatusCode = 400;
-            return Json("Erro na requisição");
-        }
-
-        [HttpPost]
         public IActionResult Salvar(ProdutoModel model){
 
                 if(!ModelState.IsValid){
