@@ -7,6 +7,7 @@ using ProdutoModel = market.Models.Produto;
 using Produto = market.Domain.Entity.Produto;
 using Venda = market.Domain.Entity.Venda;
 using Saida = market.Domain.Entity.Saida;
+using market.Domain.Repository;
 using market.Data;
 using AutoMapper;
 
@@ -17,12 +18,11 @@ namespace market.Controllers {
 
         private readonly IMapper _mapper; 
         private readonly ApplicationDbContext _repo;
-
         private readonly ILogger _logger;
 
         public VendasController(
                 ILogger<VendasController> logger,
-                ApplicationDbContext context, 
+                ApplicationDbContext context,
                 IMapper mapper
                 ){
                 _mapper = mapper;
@@ -78,6 +78,14 @@ namespace market.Controllers {
 
         [HttpPost]
         public IActionResult FinalizarCompra([FromBody] VendasModel model){
+           
+          // Processo de finalização de compra
+          // Verificar produtos no estoque
+          // Gerar saida caso todos os produtos estejam em estoque
+          // Gerar venda caso todos produtos tenham a saida realizada
+           
+           
+           
             //TODO: Validação de vendas
             Venda venda = new Venda()
               {
@@ -87,7 +95,6 @@ namespace market.Controllers {
                 Data = DateTime.Today,
 
               };
-
              _repo.Vendas.Add(venda);
              _repo.SaveChanges();
 

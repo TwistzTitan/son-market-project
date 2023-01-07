@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using market.Data;
 using Entity =  market.Domain.Entity;
 using Model = market.Models;
+using market.Domain.Repository;
+using market.Domain.Services;
+using market.Repository;
 using AutoMapper;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +54,10 @@ builder.Services.AddMvc();
 #endregion
 
 builder.Services.AddSingleton<IMapper>(mapper);
+
+builder.Services.AddScoped<IRepoVenda,RepoVenda>();
+builder.Services.AddScoped<IGestorRepoEstoque, RepoEstoque>();
+builder.Services.AddScoped<IServicoEstoque, ServicoEstoque>();
 
 var app = builder.Build();
 

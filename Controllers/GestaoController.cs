@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using market.Domain.Services;
+using market.Domain.Services.Models;
+using market.Domain.Services.Common;
 
 namespace market.Controllers
 {
@@ -13,16 +16,20 @@ namespace market.Controllers
         private readonly ILogger<GestaoController> _logger;
         private readonly ApplicationDbContext _repo;
 
+        private readonly IServicoEstoque _servicoEstoque;
+
         private readonly IMapper _mapper; 
         public GestaoController(
             ILogger<GestaoController> logger,
             ApplicationDbContext context,
+            IServicoEstoque estoqueService,
             IMapper mapper
             )
         {
             _logger = logger;
             _repo = context;
             _mapper = mapper;
+            _servicoEstoque = estoqueService;
         }
 
         public IActionResult Index()
@@ -61,12 +68,14 @@ namespace market.Controllers
                 .Select( p => _mapper.Map<Models.Promocao>(p)).ToList();
             return View(model: promocoes);
         }
-        public IActionResult Estoques(){
-            var estoques = _repo.Estoques
-                .Include(e => e.Produto)
-                .Where( e => e.Quantidade > 0)
+        public async Task<IActionResult> Estoques(){
+            var serviceResp = await _servicoEstoque.ProdutosDisponiveis() as RespProdutosDisponiveis;
+            
+            var estoques = serviceResp.Estoques
                 .Select( e => _mapper.Map<Models.Estoque>(e)).ToList();
+            
             return View(model: estoques);
+            
         }
 
         public IActionResult NovaCategoria(){
