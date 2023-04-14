@@ -16,9 +16,16 @@ namespace market.Domain.Services.Models {
     public class RespProdutosDisponiveis : RespEstoqueBase {
         public readonly IList<Estoque> Estoques; 
         public RespProdutosDisponiveis(IList<Estoque> estoques){
-
             Estoques = estoques;
-        }   
+            Status = ServicoStatus.Concluido;
+        }
+
+        public static RespProdutosDisponiveis SemEstoque(){
+            var resp = new RespProdutosDisponiveis(new List<Estoque>());
+            resp.Status = ServicoStatus.EstoqueInsuficiente;
+            return resp;
+        }
+           
     }
 
 }

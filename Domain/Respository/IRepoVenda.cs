@@ -7,9 +7,16 @@ namespace market.Domain.Repository{
 
     public abstract class IRepoVenda : IRepositoryBase<Venda>
     {
-        public abstract RespRepoBase Salvar(Venda data);
-        public abstract RespRepoBase Obter(int id);
-     
+        
+        RespSimplesBase<Venda> IRepositoryBase<Venda>.Salvar(Venda data)
+        {
+            throw new NotImplementedException();
+        }
+
+        RespDadosBase<Venda> IRepositoryBase<Venda>.Obter(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     // public interface IRepoVendasHandler {

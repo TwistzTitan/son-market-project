@@ -7,7 +7,7 @@ using market.Domain.Repository.Models;
 using market.Domain.Repository.Common;
 using market.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
-public class RepoEstoque : IRepoEstoque,IGestorRepoEstoque {
+public class RepoEstoque : IGestorRepoEstoque {
 
     private readonly ApplicationDbContext _context;
 
@@ -15,37 +15,45 @@ public class RepoEstoque : IRepoEstoque,IGestorRepoEstoque {
         _context = context;
     }
 
-    public override RespSalvarEstoque Salvar(Estoque estq)
+    public  RespSimplesBase<Estoque> Salvar(Estoque estq)
     {
         try{
             _context.Estoques.Add(estq);
             _context.SaveChanges();
-            return RespSalvarEstoque.Sucesso();
+            return RespSalvarEstoque.Sucesso(estq);
         }
         catch{
             return RespSalvarEstoque.Erro();
         }
     }
 
-    public override RespObterEstoque Obter(int i)
+    public  RespDadosBase<Estoque> Obter(int i)
     {
         try {
             
             Estoque estoque = _context.Estoques.Single( e => e.Id == i);
-            return new RespObterEstoque(estoque);
+            return new RespRepoEstoque(estoque);
         }
         catch {
-           return new RespObterEstoque(new Estoque(), RepoStatus.Erro);
+           return new RespRepoEstoque(new Estoque(), RepoStatus.Erro);
         }
         
 
     }
 
-    public IList<Estoque> ObterEstoquesDisponiveis(){
+    public RespDadosBase<Estoque> ObterEstoquesDisponiveis(){
 
-       return _context.Estoques
+      try {
+       var estoques = _context.Estoques
                 .Include(e => e.Produto)
                 .Where( e => e.Quantidade > 0).ToList();
+                
+        return new RespRepoEstoque(estoques);
+        
+      }
+      catch {
+        return new RespRepoEstoque();
+      }
 
     }
 

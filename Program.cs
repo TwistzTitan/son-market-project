@@ -4,6 +4,7 @@ using market.Data;
 using Entity =  market.Domain.Entity;
 using Model = market.Models;
 using market.Domain.Repository;
+using market.Domain.Repository.Common;
 using market.Domain.Services;
 using market.Repository;
 using AutoMapper;

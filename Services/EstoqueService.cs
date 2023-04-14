@@ -1,5 +1,6 @@
 using market.Domain.Services;
 using market.Domain.Repository;
+using market.Domain.Repository.Common;
 using market.Domain.Services.Models;
 using market.Domain.Services.Common;
 using System.Threading.Tasks;
@@ -17,14 +18,18 @@ public class ServicoEstoque : IServicoEstoque
         throw new NotImplementedException();
     }
 
-    public async Task<RespEstoqueBase> ProdutosDisponiveis(){
+    public async Task<RespEstoqueBase> EstoquesDisponiveis(){
 
-       var estoques = _repo.ObterEstoquesDisponiveis();
-       
-       var response = new RespProdutosDisponiveis(estoques);
+       var repoResp = _repo.ObterEstoquesDisponiveis();
 
-       response.Status = ServicoStatus.Concluido;
- 
-       return response;
+      switch(repoResp.Status){
+        case RepoStatus.Sucesso:
+            return new RespProdutosDisponiveis(repoResp.Dados.ToList());
+        case RepoStatus.Erro:
+            return RespProdutosDisponiveis.SemEstoque();
+        default:
+            return RespProdutosDisponiveis.SemEstoque();
+      }
+
     }
 }

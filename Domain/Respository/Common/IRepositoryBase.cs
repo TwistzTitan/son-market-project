@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 namespace market.Domain.Repository.Common{
     public interface IRepositoryBase<T>{
 
-        RespRepoBase Salvar(T data);
-        RespRepoBase Obter(int id);
+        RespSimplesBase<T> Salvar(T data);
+        RespDadosBase<T> Obter(int id);
 
     }
 

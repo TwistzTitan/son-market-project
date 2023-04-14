@@ -16,7 +16,7 @@ namespace market.Repository {
             this._context = context;
         }
         
-        public override RespSalvarVenda Salvar(Venda data) {
+        public RespSalvarVenda Salvar(Venda data) {
             try{
                 _context.Vendas.Add(data);
                 _context.SaveChanges();
@@ -27,7 +27,7 @@ namespace market.Repository {
             }
         }
 
-        public override RespObterVenda Obter(int id)
+        public RespObterVenda Obter(int id)
         {
            Venda venda = _context.Vendas.Single(v => v.Id == id);
            

@@ -69,12 +69,24 @@ namespace market.Controllers
             return View(model: promocoes);
         }
         public async Task<IActionResult> Estoques(){
-            var serviceResp = await _servicoEstoque.ProdutosDisponiveis() as RespProdutosDisponiveis;
             
-            var estoques = serviceResp.Estoques
-                .Select( e => _mapper.Map<Models.Estoque>(e)).ToList();
+            IList<Models.Estoque> estoques = new List<Models.Estoque>();
             
+            var serviceResp = await _servicoEstoque.EstoquesDisponiveis(); 
+
+            if(serviceResp.Status == ServicoStatus.Concluido){
+               
+                serviceResp = (RespProdutosDisponiveis) serviceResp;
+                
+                estoques = _repo.Estoques
+                    .Select( e => _mapper.Map<Models.Estoque>(e)).ToList();
+                
+                return View(model: estoques);
+
+            }
+
             return View(model: estoques);
+            
             
         }
 

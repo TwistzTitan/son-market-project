@@ -2,7 +2,7 @@ using market.Domain.Repository.Common;
 using market.Domain.Entity;
 namespace market.Domain.Repository.Models {
 
-    public class RespObterVenda : RespRepoBase
+    public class RespObterVenda : RespBase
 {   
     public IList<Venda> Dados {get; private set;} = new List<Venda>(); 
 
@@ -14,7 +14,7 @@ namespace market.Domain.Repository.Models {
 
 }
 
-public class RespSalvarVenda : RespRepoBase{
+public class RespSalvarVenda : RespBase{
 
     private RespSalvarVenda(RepoStatus status){
         this.Status = status;

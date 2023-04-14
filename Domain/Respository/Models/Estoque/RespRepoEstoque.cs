@@ -2,27 +2,40 @@ using market.Domain.Repository.Common;
 using market.Domain.Entity;
 
 namespace market.Domain.Repository.Models{
-    public class RespObterEstoque : RespRepoBase
+    public class RespRepoEstoque : RespDadosBase<Estoque>
 {   
     public IList<Estoque> Dados {get; private set;} = new List<Estoque>(); 
 
-    public RespObterEstoque(Estoque data, RepoStatus status = RepoStatus.Sucesso)
+    public RespRepoEstoque(){}
+    public RespRepoEstoque(Estoque data, RepoStatus status = RepoStatus.Sucesso)
     {  
-        this.Dados.Add(data);
-        this.Status = status;
+        Dados.Add(data);
+        Status = status;
+    }
+
+    public RespRepoEstoque(IList<Estoque> estoques, RepoStatus status = RepoStatus.Sucesso){
+        Dados = estoques;
+        Status = status;
     }
 
 }
 
-public class RespSalvarEstoque : RespRepoBase{
+public class RespSalvarEstoque : RespSimplesBase<Estoque>{
 
-    private RespSalvarEstoque(RepoStatus status){
+    private RespSalvarEstoque(RepoStatus status, Estoque estoque){
         this.Status = status;
+        this.Valor = estoque;
     }
 
-    public static RespSalvarEstoque Erro() => new RespSalvarEstoque(RepoStatus.Erro);
+    private RespSalvarEstoque(RepoStatus status)
+    {
+            this.Status = status;
+            this.Valor = new Estoque();
+    }
 
-    public static RespSalvarEstoque Sucesso() => new RespSalvarEstoque(RepoStatus.Sucesso);
+    public static RespSalvarEstoque Erro() => new (RepoStatus.Erro);
+
+    public static RespSalvarEstoque Sucesso(Estoque estoque) => new (RepoStatus.Sucesso,estoque);
 }
 
 }
